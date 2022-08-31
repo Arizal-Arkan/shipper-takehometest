@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import Head from "next/head";
 import Styled from "styled-components";
 import { GrNext, GrPrevious } from "react-icons/gr";
 
@@ -46,32 +47,28 @@ export default function Home() {
 
   useEffect(() => {
     /* this flow control is for preventing data change after reload */
-    if (localStorage.getItem('dataUser') === null) {
+    if (localStorage.getItem("dataUser") === null) {
       GetRandomUser()
-      .then((items) => {
-          localStorage.setItem('dataUser', JSON.stringify(items?.data?.results));
+        .then((items) => {
+          localStorage.setItem(
+            "dataUser",
+            JSON.stringify(items?.data?.results)
+          );
           setData(items?.data?.results);
-      })
-      .catch((err) => alert(err));
+        })
+        .catch((err) => alert(err));
     } else {
-      setData(JSON.parse(localStorage.getItem('dataUser')))
+      setData(JSON.parse(localStorage.getItem("dataUser")));
     }
-    
   }, []);
 
-  const handleNext = useCallback(
-    () => {
-      setPage(isPage + 1)
-    },
-    [isPage],
-  );
+  const handleNext = useCallback(() => {
+    setPage(isPage + 1);
+  }, [isPage]);
 
-  const handlePrev = useCallback(
-    () => {
-      setPage(isPage - 1)
-    },
-    [isPage],
-  );
+  const handlePrev = useCallback(() => {
+    setPage(isPage - 1);
+  }, [isPage]);
 
   // inject several parent data to child component
   const contextValue = {
@@ -83,6 +80,10 @@ export default function Home() {
 
   return (
     <div>
+      <Head>
+        <title>Shipper</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <AppContext.Provider value={contextValue}>
         <BoxContainer />
         <CardContent />
@@ -94,7 +95,11 @@ export default function Home() {
             <GrPrevious color="#cdcdcd" /> Previousous Page
           </ButtonPagination>
           <ButtonPagination
-            disabled={lastIndex === isData.length || isQuery.length > 0 || !Object.keys(isData).length > 0}
+            disabled={
+              lastIndex === isData.length ||
+              isQuery.length > 0 ||
+              !Object.keys(isData).length > 0
+            }
             onClick={handleNext}
           >
             Next Page <GrNext color="#cdcdcd" />
