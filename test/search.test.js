@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 
 describe("BoxSearch", () => {
-    it('should render Layout correctly', () => {
+    test('should render BoxSearch correctly', () => {
         render(<BoxSearch />)
     });
 
-    it('allow to search driver name', () => {
+    test('allow to search driver name', () => {
         render(<BoxSearch/>)
 
         userEvent.type(screen.getByLabelText('Search'), 'Adrew')

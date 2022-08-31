@@ -45,18 +45,18 @@ export default function Home() {
   );
 
   useEffect(() => {
-    let mounted = true;
-    GetRandomUser()
+    /* this flow control is for preventing data change after reload */
+    if (localStorage.getItem('dataUser') === null) {
+      GetRandomUser()
       .then((items) => {
-        if (mounted) {
+          localStorage.setItem('dataUser', JSON.stringify(items?.data?.results));
           setData(items?.data?.results);
-        }
       })
       .catch((err) => alert(err));
-
-    return () => {
-      mounted = false;
-    };
+    } else {
+      setData(JSON.parse(localStorage.getItem('dataUser')))
+    }
+    
   }, []);
 
   const handleNext = useCallback(
