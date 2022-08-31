@@ -1,73 +1,107 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import Styled from 'styled-components';
-import { GrNext, GrPrevious } from 'react-icons/gr'
+import React, { useEffect, useState, useCallback } from "react";
+import Styled from "styled-components";
+import { GrNext, GrPrevious } from "react-icons/gr";
 
 // Fetch
-import { GetRandomUser } from '../services/api'
+import { GetRandomUser } from "../services/api";
+
+//Context
+import { AppContext } from "../context/app-context";
 
 // Components
-import BoxContainer from '../components/commons/BoxSearch'
-import CardContent from '../components/commons/CardContent'
+import BoxContainer from "../components/commons/BoxSearch";
+import CardContent from "../components/commons/CardContent";
 
 //Style
-
-const ButtonPagination = Styled.button `
+const ButtonPagination = Styled.button`
   display: flex;
   background: transparent;
   border: none;
   cursor: pointer;
   margin: 0 10px 0 10px;
-`
+`;
 
-const ButtonContainer = Styled.div `
+const ButtonContainer = Styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
   margin-top: 40px;
-`
+`;
 
 export default function Home() {
   const [isData, setData] = useState([]);
   const [isPage, setPage] = useState(0);
   const [isQuery, setQuery] = useState("");
 
+  // Pagination Logic
   const userPerPage = 5;
   const startIndex = isPage * userPerPage;
   const lastIndex = startIndex + userPerPage;
 
   const displayToUser = isData.slice(startIndex, lastIndex);
 
-  const DataToSearch= isData.filter((val) =>
-  val.name.first.toLowerCase().includes(isQuery.toLowerCase())
-)
-
-  const handleSearch = (e) => {
-    setQuery(e.target.value)
-  }
+  const DataToSearch = isData.filter((val) =>
+    val.name.first.toLowerCase().includes(isQuery.toLowerCase())
+  );
 
   useEffect(() => {
-    let mounted = true
+    let mounted = true;
     GetRandomUser()
-      .then(items => {
+      .then((items) => {
         if (mounted) {
-          setData(items?.data?.results)
+          setData(items?.data?.results);
         }
       })
-      .catch(err => alert(err))
-  
+      .catch((err) => alert(err));
+
     return () => {
-      mounted = false
-    }
-  }, [])
+      mounted = false;
+    };
+  }, []);
+
+  const handleNext = useCallback(
+    () => {
+      setPage(isPage + 1)
+    },
+    [isPage],
+  );
+
+  const handlePrev = useCallback(
+    () => {
+      setPage(isPage - 1)
+    },
+    [isPage],
+  );
+  
+
+  // inject several parent data to child component
+  const contextValue = {
+    DataToSearch,
+    isQuery,
+    displayToUser,
+    setQuery,
+  };
 
   return (
     <div>
-      <BoxContainer handleSearch={handleSearch} />
-      <CardContent dataCard={displayToUser} searchKeyword={isQuery} dataSearchAll={DataToSearch}  />
-      <ButtonContainer>
-      <ButtonPagination disabled={isPage === 0 || isQuery.length > 0} onClick={() => setPage(isPage - 1)}> <GrPrevious color="#cdcdcd" /> Previousous Page</ButtonPagination>
-      <ButtonPagination disabled={lastIndex === isData.length || isQuery.length > 0} onClick={() => setPage(isPage + 1)}>Next Page <GrNext color="#cdcdcd" /> </ButtonPagination>
-      </ButtonContainer>
+      <AppContext.Provider value={contextValue}>
+        <BoxContainer />
+        <CardContent />
+        <ButtonContainer>
+          <ButtonPagination
+            disabled={isPage === 0 || isQuery.length > 0}
+            onClick={handlePrev}
+          >
+            <GrPrevious color="#cdcdcd" /> Previousous Page
+          </ButtonPagination>
+          <ButtonPagination
+            disabled={lastIndex === isData.length || isQuery.length > 0}
+            onClick={handleNext}
+          >
+            Next Page <GrNext color="#cdcdcd" />
+          </ButtonPagination>
+        </ButtonContainer>
+      </AppContext.Provider>
     </div>
-  )
+  );
 }

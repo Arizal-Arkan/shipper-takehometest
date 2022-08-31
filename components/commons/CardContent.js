@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import Styled, { keyframes } from "styled-components";
 import { DateTime as dt } from "luxon";
+
+//context
+import { AppContext } from '../../context/app-context'
 
 //Icon
 import { BiDotsHorizontalRounded } from "react-icons/bi";
@@ -86,14 +89,14 @@ const CardList = Styled.article.attrs(() => ({}))`
     }
 `;
 
-const CardContent = (props) => {
-  const { dataCard, searchKeyword, dataSearchAll } = props;
+const CardContent = () => {
+  const context = useContext(AppContext)
 
   return (
     <CardContainer>
-      {dataCard.length ? (
-        /* Render if user search the driver */
-        searchKeyword.length > 0 ? dataSearchAll.map((val, i) => {
+      {context?.displayToUser?.length ? (
+        /* Render if user search the driver, then show all the data ( not only 5 if more than 5 ) */
+        context?.isQuery?.length > 0 ? context?.DataToSearch.map((val, i) => {
             const date = dt.fromISO(val.dob.date).toFormat("yyyy LLL dd");
             return (
               <CardList key={i}>
@@ -121,8 +124,7 @@ const CardContent = (props) => {
             );
           }) :
         /* Render if user not search the driver */
-        dataCard
-          .map((val, i) => {
+        context?.displayToUser.map((val, i) => {
             const date = dt.fromISO(val.dob.date).toFormat("yyyy LLL dd");
             return (
               <CardList key={i}>

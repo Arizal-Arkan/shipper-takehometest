@@ -37,8 +37,8 @@ function Header(){
       />
 
       <User>
-        <p>
-          Hello, <UserName> Shipper User </UserName>
+        <p data-testid="text-container">
+          Hello, <UserName data-testid="text-user-name"> Shipper User </UserName>
         </p>
         <div>
           <FaRegUserCircle size="2em" />

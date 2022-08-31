@@ -33,13 +33,13 @@ function Nav() {
     <navigation>
       <ListItem>
         <ItemMenu>
-          <HiHome size="2em" /> <TextMenu>Beranda</TextMenu>
+          <HiHome size="2em" /> <TextMenu data-testid="navigation-item">Beranda</TextMenu>
         </ItemMenu>
         <ItemMenu>
-          <RiMapPinUserFill size="2em" /> <TextMenu>Driver Management</TextMenu>
+          <RiMapPinUserFill size="2em" /> <TextMenu data-testid="navigation-item">Driver Management</TextMenu>
         </ItemMenu>
         <ItemMenu>
-          <HiOutlineCalendar size="2em" /> <TextMenu>Pickup</TextMenu>
+          <HiOutlineCalendar size="2em" /> <TextMenu data-testid="navigation-item">Pickup</TextMenu>
         </ItemMenu>
       </ListItem>
     </navigation>

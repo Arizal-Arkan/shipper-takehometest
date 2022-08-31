@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import Styled from "styled-components";
+
+//Context
+import { AppContext } from '../../context/app-context'
 
 //Icons
 import { IoMdAdd, IoMdSearch } from "react-icons/io";
@@ -57,8 +60,16 @@ const InputContainer = Styled.div`
     aligin-items: center;
 `;
 
-const BoxSearch = (props) => {
-  const { handleSearch } = props;
+const Label = Styled.label `
+    display: none;
+`
+
+const BoxSearch = () => {
+  const context = useContext(AppContext)
+
+  const handleSearch = (e) => {
+    context.setQuery(e.target.value);
+  }
 
   return (
     <BoxContainer>
@@ -70,10 +81,15 @@ const BoxSearch = (props) => {
         <ActionContainer>
           <InputContainer>
             <IoMdSearch color="red" />
+            <Label htmlFor="Search">
+                Search
+            </Label>
             <InputBox
               onChange={handleSearch}
               type="text"
+              id="Search"
               placeholder="Cari Driver"
+              name="Search"
             />
           </InputContainer>
           <Button>
