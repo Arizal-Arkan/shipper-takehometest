@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import Styled from "styled-components";
 
 //Icons
@@ -23,27 +23,37 @@ const ListItem = Styled.ul`
     font-size: 1rem;
 `;
 
-const TextMenu = Styled.p `
+const TextMenu = Styled.p`
     margin-left: 20px;
     font-wight: 500;
 `;
 
+const NavContainer = Styled.div`
+  display: block;
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
 function Nav() {
   return (
-    <navigation>
+    <NavContainer>
       <ListItem>
         <ItemMenu>
-          <HiHome size="2em" /> <TextMenu data-testid="navigation-item">Beranda</TextMenu>
+          <HiHome size="2em" />{" "}
+          <TextMenu data-testid="navigation-item">Beranda</TextMenu>
         </ItemMenu>
         <ItemMenu>
-          <RiMapPinUserFill size="2em" /> <TextMenu data-testid="navigation-item">Driver Management</TextMenu>
+          <RiMapPinUserFill size="2em" />{" "}
+          <TextMenu data-testid="navigation-item">Driver Management</TextMenu>
         </ItemMenu>
         <ItemMenu>
-          <HiOutlineCalendar size="2em" /> <TextMenu data-testid="navigation-item">Pickup</TextMenu>
+          <HiOutlineCalendar size="2em" />{" "}
+          <TextMenu data-testid="navigation-item">Pickup</TextMenu>
         </ItemMenu>
       </ListItem>
-    </navigation>
+    </NavContainer>
   );
 }
 
-export default React.memo(Nav)
+export default React.memo(Nav);

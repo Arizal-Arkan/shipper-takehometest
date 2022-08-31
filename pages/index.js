@@ -72,7 +72,6 @@ export default function Home() {
     },
     [isPage],
   );
-  
 
   // inject several parent data to child component
   const contextValue = {
@@ -95,7 +94,7 @@ export default function Home() {
             <GrPrevious color="#cdcdcd" /> Previousous Page
           </ButtonPagination>
           <ButtonPagination
-            disabled={lastIndex === isData.length || isQuery.length > 0}
+            disabled={lastIndex === isData.length || isQuery.length > 0 || !Object.keys(isData).length > 0}
             onClick={handleNext}
           >
             Next Page <GrNext color="#cdcdcd" />

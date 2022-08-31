@@ -10,6 +10,10 @@ const Container = Styled.div`
     display: grid;
     grid-template-columns: 20% auto;
     height: 90vh;
+
+    @media (max-width: 768px) {
+      display: block;
+    }
 `;
 
 const Main = Styled.main `
